@@ -13,32 +13,55 @@ pub fn analyze_reactor_safety_reports() {
             continue;
         }
 
-        let mut is_consistent = true;
-        let mut increasing = numbers[1] > numbers[0];
+        if is_consistent_sequence(&numbers) {
+            safe_count += 1;
+            continue;
+        }
 
-        for window in numbers.windows(2) {
-            let diff = window[1] - window[0];
-
-            if diff.abs() < 1 || diff.abs() > 3 {
-                is_consistent = false;
-                break;
-            }
-
-            if increasing && diff < 0 {
-                is_consistent = false;
-                break;
-            }
-
-            if !increasing && diff > 0 {
-                is_consistent = false;
+        let mut removable = false;
+        for i in 0..numbers.len() {
+            if is_consistent_sequence(
+                &numbers
+                    .iter()
+                    .enumerate()
+                    .filter_map(|(j, &n)| if j != i { Some(n) } else { None })
+                    .collect::<Vec<i32>>(),
+            ) {
+                removable = true;
                 break;
             }
         }
 
-        if is_consistent {
+        if removable {
             safe_count += 1;
         }
     }
 
     println!("The number of safe reports is: {}", safe_count);
+}
+
+fn is_consistent_sequence(numbers: &[i32]) -> bool {
+    if numbers.len() < 2 {
+        return false;
+    }
+
+    let mut increasing = numbers[1] > numbers[0];
+
+    for window in numbers.windows(2) {
+        let diff = window[1] - window[0];
+
+        if diff.abs() < 1 || diff.abs() > 3 {
+            return false;
+        }
+
+        if increasing && diff < 0 {
+            return false;
+        }
+
+        if !increasing && diff > 0 {
+            return false;
+        }
+    }
+
+    true
 }
