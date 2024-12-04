@@ -7,3 +7,6 @@ pub use day2::analyze_reactor_safety_reports;
 
 pub mod day3;
 pub use day3::scan_corrupted_mul_instructions;
+
+pub mod day4;
+pub use day4::solve_word_puzzle;
