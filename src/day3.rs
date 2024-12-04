@@ -1,57 +1,74 @@
 use regex::Regex;
+use std::fs;
+use std::error::Error;
 
-pub fn scan_corrupted_mul_instructions(optimized: bool) {
-    let corrupted_memory = std::fs::read_to_string("src/inputs/day3_q1").expect("Failed to read file");
-
+pub fn scan_corrupted_mul_instructions(optimized: bool) -> Result<(), Box<dyn Error>> {
+    let corrupted_memory = fs::read_to_string("src/inputs/day3_q1")?;
     let mut total_sum = 0;
     let mut summing_enabled = true;
-
-    let mul_pattern = Regex::new(r"mul\((\d{1,3}),(\d{1,3})\)").unwrap();
-    let dont_pattern = Regex::new(r"don't\(\)").unwrap();
-    let do_pattern = Regex::new(r"do\(\)").unwrap();
-    println!("mull pattern: {}", &mul_pattern );
-    println!("dont pattern: {}", &dont_pattern );
-    println!("do pattern: {}", &do_pattern);
+    let mul_pattern = Regex::new(r"mul\((\d{1,3}),(\d{1,3})\)")?;
+    let dont_pattern = Regex::new(r"\s*don't\(\)\s*")?;
+    let do_pattern = Regex::new(r"\s*do\(\)\s*")?;
+    
     if optimized {
         let mut capture_position = 0;
-        println!("current position 1: {}", &capture_position);
-        // Iterate over the whole text once
         while capture_position < corrupted_memory.len() {
-            println!("Current Position: {}", capture_position);
-            println!("Summing Enabled: {}", summing_enabled);
-
+            let mut dnt_idx = capture_position;
+            let mut do_idx = capture_position;
+            let mut mul_idx = capture_position;
+            if let Some(dont_capture) = dont_pattern.find(&corrupted_memory[capture_position..]) {
+                dnt_idx = dont_capture.end();
+                println!("Found dont pattern {}", dnt_idx);
+            }
+            if let Some(do_capture) = do_pattern.find(&corrupted_memory[capture_position..]) {
+                do_idx = do_capture.end();
+                println!("Found do pattern {}", do_idx);
+            }
+            if let Some(mul_capture) = mul_pattern.find(&corrupted_memory[capture_position..]) {
+                mul_idx = mul_capture.end();
+                println!("Found mul pattern {}", mul_idx);
+            }
+            
             if summing_enabled {
-                if let Some(mul_capture) = mul_pattern.captures(&corrupted_memory[capture_position..]) {
-                    let x: i64 = mul_capture[1].parse().unwrap();
-                    let y: i64 = mul_capture[2].parse().unwrap();
-                    total_sum += x * y;
-                    println!("Match found: x={}, y={}, Total Sum: {}", x, y, total_sum);
-                    capture_position = corrupted_memory[capture_position..].find(&mul_capture[0]).unwrap() + mul_capture[0].len();
-                    continue;
+                if(mul_idx < dnt_idx) {
+                    if let Some(mul_capture) = mul_pattern.captures(&corrupted_memory[capture_position..]) {
+                        if let (Ok(x), Ok(y)) = (mul_capture[1].parse::<i64>(), mul_capture[2].parse::<i64>()) {
+                            total_sum += x * y;
+                        } else {
+                            println!("Failed to parse captured numbers");
+                        }
+                        capture_position += mul_capture.get(0).map_or(0, |m| m.end());
+                    }
+                }
+            } 
+            if(dnt_idx < mul_idx) {
+                if let Some(dont_capture) = dont_pattern.find(&corrupted_memory[capture_position..]) {
+                    println!("Found don't pattern");
+                    summing_enabled = false;
+                    capture_position += dont_capture.end();
                 }
             }
-            println!("Evaluating slice at position {}: {:?}", capture_position, &corrupted_memory[capture_position..]);
-
-            if let Some(dont_capture) = dont_pattern.find(&corrupted_memory[capture_position..]) {
-                summing_enabled = false;
-                println!("Disabling summing at position: {}", capture_position);
-                capture_position = corrupted_memory[capture_position..].find(dont_capture.as_str()).unwrap() + dont_capture.end();
-            } else if let Some(do_capture) = do_pattern.find(&corrupted_memory[capture_position..]) {
-                summing_enabled = true;
-                println!("Enabling summing at position: {}", capture_position);
-                capture_position = corrupted_memory[capture_position..].find(do_capture.as_str()).unwrap() + do_capture.end();
+            if(do_idx < dnt_idx) {
+                if let Some(do_capture) = do_pattern.find(&corrupted_memory[capture_position..]) {
+                    println!("Found do pattern");
+                    summing_enabled = true;
+                    capture_position += do_capture.end();
+                }
             } else {
-                println!("No match found at position: {}", capture_position);
-                capture_position += 1; // Advance one character
+                println!("No pattern found");
+                capture_position += 1; 
             }
         }
     } else {
         for capture in mul_pattern.captures_iter(&corrupted_memory) {
-            let x: i64 = capture[1].parse().unwrap();
-            let y: i64 = capture[2].parse().unwrap();
-            total_sum += x * y;
+            if let (Ok(x), Ok(y)) = (capture[1].parse::<i64>(), capture[2].parse::<i64>()) {
+                total_sum += x * y;
+            } else {
+                println!("Failed to parse captured numbers");
+            }
         }
     }
 
     println!("Total sum of all 'mul' sequences: {}", total_sum);
+    Ok(())
 }
