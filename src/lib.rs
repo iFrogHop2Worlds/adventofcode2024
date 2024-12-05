@@ -10,3 +10,4 @@ pub use day3::scan_corrupted_mul_instructions;
 
 pub mod day4;
 pub use day4::solve_word_puzzle;
+pub use day4::solve_puzzle_mas_x;

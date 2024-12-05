@@ -9,5 +9,6 @@ fn main() {
     // let _ = scan_corrupted_mul_instructions(true);
     // let _ = scan_corrupted_mul_instructions(false);
     //day 4
-    day4::solve_word_puzzle();
+    //day4::solve_word_puzzle();
+    day4::solve_puzzle_mas_x();
 }
