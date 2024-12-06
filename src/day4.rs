@@ -56,52 +56,47 @@ pub fn solve_puzzle_mas_x() {
     let grid: Vec<Vec<char>> = puzzle_input.lines()
         .map(|line| line.chars().collect())
         .collect();
-
     let diagonal_directions = [
         (1, 1),  // Down-right
         (-1, -1), // Up-left
         (1, -1),  // Down-left
-        (-1, 1)   // Up-right
+        (-1, 1),   // Up-right
     ];
-
     let mut count = 0;
-
-    for row in 0..grid.len() {
-        for col in 0..grid[row].len() {
+    for row in 1..grid.len()-1 {
+        for col in 1..grid[row].len()-1 {
             if grid[row][col] == 'A' {
+                println!("row is: {:?}", &row);
+                println!("col is: {:?}", &col);
+            
                 for direction_index in 0..diagonal_directions.len() {
                     let direction_m = diagonal_directions[direction_index];
                     let direction_s = diagonal_directions[(direction_index + 2) % 4]; // Opposite direction for 'S'
-
+                   
                     if check_mas_any_direction(&grid, row as isize, col as isize, direction_m, direction_s) {
+                        println!("MAS");
                         count += 1;
-                    }
-
-                    // Swap roles of M and S directions to cover opposite arrangement
-                    if check_mas_any_direction(&grid, row as isize, col as isize, direction_s, direction_m) {
+                    } else if check_mas_any_direction(&grid, row as isize, col as isize, direction_s, direction_m) {
+                        println!("SAM");
                         count += 1;
                     }
                 }
             }
         }
     }
-
     println!("Total diagonal X formations of MAS: {}", count);
 }
-
 fn check_mas_any_direction(
     grid: &[Vec<char>], row: isize, col: isize,
     direction_m: (isize, isize), direction_s: (isize, isize)
 ) -> bool {
     let (m_row_dir, m_col_dir) = direction_m;
     let (s_row_dir, s_col_dir) = direction_s;
-
     let new_m_row = row + m_row_dir;
     let new_m_col = col + m_col_dir;
     let new_s_row = row + s_row_dir;
     let new_s_col = col + s_col_dir;
 
-    // Check boundaries and chars
     if new_m_row >= 0 && new_m_col >= 0 && new_s_row >= 0 && new_s_col >= 0 &&
         new_m_row < grid.len() as isize && new_m_col < grid[0].len() as isize &&
         new_s_row < grid.len() as isize && new_s_col < grid[0].len() as isize &&
@@ -110,6 +105,5 @@ fn check_mas_any_direction(
     {
         return true;
     }
-
     false
 }
