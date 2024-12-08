@@ -14,3 +14,10 @@ pub use day4::solve_puzzle_mas_x;
 
 pub mod day5;
 pub use day5::fix_safteymanual_updates;
+pub use day5::incorrect_order_count;
+
+pub mod day6;
+pub use day6::count_distinct_positions;
+pub mod day7;
+
+pub mod day8;

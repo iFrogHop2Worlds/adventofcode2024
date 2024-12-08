@@ -1,4 +1,4 @@
-use aoc24::fix_safteymanual_updates;
+use aoc24::{count_distinct_positions, fix_safteymanual_updates, incorrect_order_count};
 use aoc24::{process_input_and_calculate_differences, process_input_and_calculate_similarities_score, analyze_reactor_safety_reports, scan_corrupted_mul_instructions, day4};
 fn main() { 
     // // day1
@@ -11,6 +11,10 @@ fn main() {
     // let _ = scan_corrupted_mul_instructions(false);
     //day 4
     //day4::solve_word_puzzle();
-    //day4::solve_puzzle_mas_x(); 
-    fix_safteymanual_updates();
+    //day4::solve_puzzle_mas_x();
+    //day5
+    //fix_safteymanual_updates();
+    //incorrect_order_count();
+    //day6
+    count_distinct_positions(89, 51);
 }
