@@ -1,4 +1,4 @@
-use aoc24::{count_distinct_positions, fix_safteymanual_updates, incorrect_order_count};
+use aoc24::{calculate_antinode_positions, count_distinct_positions, fix_safteymanual_updates, incorrect_order_count};
 use aoc24::{process_input_and_calculate_differences, process_input_and_calculate_similarities_score, analyze_reactor_safety_reports, scan_corrupted_mul_instructions, day4};
 use aoc24::day7::sum_of_valid_equations;
 
@@ -20,5 +20,8 @@ fn main() {
     //day6
     //count_distinct_positions(89, 51);
     //day7
-    println!("sum of valid equations: {}", sum_of_valid_equations());
+    //println!("sum of valid equations: {}", sum_of_valid_equations());
+    //day8
+    println!("Number of unique antinode locations: {}", calculate_antinode_positions());
+    
 }

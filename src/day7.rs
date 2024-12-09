@@ -17,22 +17,39 @@ pub fn sum_of_valid_equations() -> i64 {
 
 fn find_valid_equation(numbers: &[i64], target: i64) -> bool {
     let n = numbers.len();
-    let operators_permutations = 1 << (n - 1); // 2^(n-1) combinations of operators
+    if n == 0 {
+        return false;
+    }
+
+    // 3^(n-1) combinations of operators (+, *, ||),
+    // using two bits to represent each operator
+    let operators_permutations = 1 << ((n - 1) * 2);
 
     for perm in 0..operators_permutations {
         let mut result = numbers[0];
+        let mut current_perm = perm;
+
         for i in 0..n - 1 {
-            if (perm & (1 << i)) != 0 {
-                result += numbers[i + 1];
-            } else {
-                result *= numbers[i + 1];
-            }
+            let operator = current_perm & 0b11; // extract two bits for the current operator
+            current_perm >>= 2;
+
+            result = match operator {
+                0b00 => result + numbers[i + 1],  // +
+                0b01 => result * numbers[i + 1],  // *
+                0b10 => {
+                    // || (concatenation)
+                    let left = result.to_string();
+                    let right = numbers[i + 1].to_string();
+                    let concatenated = left + &right;
+                    concatenated.parse::<i64>().unwrap_or(0) 
+                }
+                _ => result, 
+            };
         }
 
         if result == target {
             return true;
         }
     }
-
     false
 }
