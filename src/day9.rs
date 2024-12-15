@@ -5,7 +5,6 @@ pub fn free_disk_space() -> usize {
     let mut blocks: Vec<char> = Vec::new();
     let chars: Vec<char> = disk_map.chars().collect();
 
-    // Parse the disk map into blocks representation
     let mut i = 0;
     while i < chars.len() {
         let file_len = match chars[i].to_digit(10) {
@@ -25,32 +24,14 @@ pub fn free_disk_space() -> usize {
         i += 2;
     }
 
-    // Compact the blocks
     if blocks.is_empty() {
         return 0;
     }
-    let mut read_idx = blocks.len() - 1;
 
-    for write_idx in (0..blocks.len()).rev() {
-        if blocks[write_idx] == '.' {
-            if read_idx > write_idx {
-                read_idx = write_idx;
-            }
-            while read_idx > 0 && blocks[read_idx - 1] == '.' {
-                read_idx -= 1;
-            }
-            if read_idx > 0 {
-                read_idx -= 1;
-            }
-        } else if read_idx > write_idx {
-            blocks.swap(read_idx, write_idx);
-            if read_idx > 0 {
-                read_idx -= 1;
-            }
-        }
-    }
+    blocks = swap_blocks(blocks);
+    println!("Bloxes: {}", blocks.len());
+    println!("Blocks: {:#?}", blocks);
 
-    // Calculate the checksum
     let mut checksum = 0;
     for i in 0..blocks.len() {
         if blocks[i] != '.' {
@@ -59,4 +40,26 @@ pub fn free_disk_space() -> usize {
     }
 
     checksum
+}
+
+fn swap_blocks(mut blocks: Vec<char>) -> Vec<char> {
+    let mut read_idx = blocks.len() - 1; // Start from the last index
+    for write_idx in (0..blocks.len()) {
+        if blocks[write_idx].is_ascii_digit() {
+            continue;
+        }
+        if blocks[read_idx] == '.' {
+            while read_idx > 0 && blocks[read_idx] == '.' {
+                read_idx -= 1;
+            }
+        }
+
+        if read_idx > write_idx && blocks[write_idx] == '.' && !blocks[write_idx].is_ascii_digit() {
+            blocks.swap(write_idx, read_idx);
+        }
+        if read_idx > 0 {
+            read_idx -= 1;
+        }
+    }
+    blocks
 }
