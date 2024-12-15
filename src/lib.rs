@@ -19,8 +19,13 @@ pub use day5::incorrect_order_count;
 pub mod day6;
 pub use day6::count_distinct_positions;
 pub mod day7;
+pub use day7::sum_of_valid_equations;
 
 pub mod day8;
 //pub use day8::calculate_antinode_positions;
 
 pub mod day9;
+pub use day9::free_disk_space;
+
+pub mod day10;
+pub use day10::find_trailhead_scores;

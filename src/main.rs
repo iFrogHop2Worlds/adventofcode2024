@@ -1,7 +1,4 @@
-use aoc24::day9::free_disk_space;
-use aoc24::{ count_distinct_positions, fix_safteymanual_updates, incorrect_order_count};
-use aoc24::{process_input_and_calculate_differences, process_input_and_calculate_similarities_score, analyze_reactor_safety_reports, scan_corrupted_mul_instructions, day4};
-use aoc24::day7::sum_of_valid_equations;
+use aoc24::*;
 
 fn main() { 
     // // day1
@@ -25,7 +22,10 @@ fn main() {
     //day8
     //println!("Number of unique antinode locations: {}", calculate_antinode_positions());
     //day9
-    let checksum = free_disk_space();
-    println!("The resulting filesystem checksum is: {}", checksum);
+    // let checksum = free_disk_space();
+    // println!("The resulting filesystem checksum is: {}", checksum);
+    //day10
+    let score = find_trailhead_scores();
+    println!("Total trailhead score: {}", score);
     
 }
