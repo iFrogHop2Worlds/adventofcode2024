@@ -1,6 +1,6 @@
 use aoc24::*;
 
-fn main() { 
+fn main() {
     // // day1
     // process_input_and_calculate_differences();
     // process_input_and_calculate_similarities_score();
@@ -25,7 +25,7 @@ fn main() {
     // let checksum = free_disk_space();
     // println!("The resulting filesystem checksum is: {}", checksum);
     //day10
-    let score = find_trailhead_scores();
+    let score = find_trailhead_scores::<i64>();
     println!("Total trailhead score: {}", score);
     
 }
