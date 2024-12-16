@@ -32,3 +32,6 @@ pub use day10::find_trailhead_scores;
 
 pub mod day11;
 pub use day11::evolve_stones;
+
+pub mod day12;
+pub use day12::calculate_fencing_cost;

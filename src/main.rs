@@ -28,12 +28,15 @@ fn main() {
     // let score = find_trailhead_scores::<i64>();
     // println!("Total trailhead score: {}", score);
     //day11
-    let blinks = 25;
-    let mut stones = vec![5, 89749, 6061, 43, 867, 1965860, 0, 206250];
-    for _ in 0..blinks {
-        evolve_stones(&mut stones);
-    }
-    println!("Stones: {:?}", stones);
-    println!("Number of stones after 25 blinks: {}", &stones.len());
+    // let blinks = 75;
+    // let mut stones = vec![5, 89749, 6061, 43, 867, 1965860, 0, 206250];
+    // for _ in 0..blinks {
+    //     evolve_stones(&mut stones);
+    // }
+    // //println!("Stones: {:?}", stones);
+    // println!("Number of stones after 75 blinks: {}", &stones.len());
+    //day12
+    let total_cost = calculate_fencing_cost();
+    println!("Total cost for fencing the garden regions: {}", total_cost);
     
 }

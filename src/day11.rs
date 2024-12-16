@@ -29,6 +29,7 @@ pub fn evolve_stones(stones: &mut Vec<i64>) {
 
     stones.clear(); // Clear the old stones
     stones.extend(new_stones); // Extend the vector with new values
+    println!("{:?}", stones.len());
 }
 
 
