@@ -25,7 +25,15 @@ fn main() {
     // let checksum = free_disk_space();
     // println!("The resulting filesystem checksum is: {}", checksum);
     //day10
-    let score = find_trailhead_scores::<i64>();
-    println!("Total trailhead score: {}", score);
+    // let score = find_trailhead_scores::<i64>();
+    // println!("Total trailhead score: {}", score);
+    //day11
+    let blinks = 25;
+    let mut stones = vec![5, 89749, 6061, 43, 867, 1965860, 0, 206250];
+    for _ in 0..blinks {
+        evolve_stones(&mut stones);
+    }
+    println!("Stones: {:?}", stones);
+    println!("Number of stones after 25 blinks: {}", &stones.len());
     
 }

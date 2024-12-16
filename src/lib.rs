@@ -29,3 +29,6 @@ pub use day9::free_disk_space;
 
 pub mod day10;
 pub use day10::find_trailhead_scores;
+
+pub mod day11;
+pub use day11::evolve_stones;
