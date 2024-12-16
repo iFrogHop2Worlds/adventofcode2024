@@ -35,3 +35,6 @@ pub use day11::evolve_stones;
 
 pub mod day12;
 pub use day12::calculate_fencing_cost;
+
+pub mod day13;
+pub use day13::solve_claw_machines;
