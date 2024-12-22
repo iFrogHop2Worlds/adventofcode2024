@@ -39,9 +39,10 @@ fn main() {
     // let total_cost = calculate_fencing_cost();
     // println!("Total cost for fencing the garden regions: {}", total_cost);
     //day13
-    let (prizes_won, total_tokens_spent) = solve_claw_machines();
-
-    println!("Prizes won: {}", prizes_won);
-    println!("Total tokens spent: {}", total_tokens_spent);
-    
+    // let (prizes_won, total_tokens_spent) = solve_claw_machines();
+    //
+    // println!("Prizes won: {}", prizes_won);
+    // println!("Total tokens spent: {}", total_tokens_spent);
+    //day 14
+    predict_robots_movement();
 }

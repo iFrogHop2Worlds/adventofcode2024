@@ -1,3 +1,5 @@
+#![feature(int_roundings)]
+
 pub mod day1;
 pub use day1::process_input_and_calculate_differences;
 pub use day1::process_input_and_calculate_similarities_score;
@@ -38,3 +40,6 @@ pub use day12::calculate_fencing_cost;
 
 pub mod day13;
 pub use day13::solve_claw_machines;
+
+pub mod day14;
+pub use day14::predict_robots_movement;
