@@ -2,7 +2,7 @@ pub fn predict_robots_movement() {
     let mut grid = generate_grid(103, 101);
     let robot_movements = create_movement_data(Option::from("src/inputs/day14_q1"));
     let mut current_positions: Vec<(i16, i16)> = robot_movements.iter().map(|movement| movement[0]).collect();
-    //
+    //1
     for iteration in 0..101 {
         println!("Iteration {}", iteration);
         if iteration == 0 {
@@ -105,7 +105,7 @@ fn compute_quadrant_product(grid: &[Vec<i8>]) -> i32 {
     let height = grid.len();
     let width = grid[0].len();
 
-    let mid_y = height / 2;
+    let mid_y = (height / 2);
     let mid_x = width / 2;
 
     let sum_q1: i32 = grid[..mid_y]
