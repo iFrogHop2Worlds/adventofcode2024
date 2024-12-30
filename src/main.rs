@@ -47,25 +47,31 @@ fn main() {
     //day 14
     // predict_robots_movement();
     //day15
-    let initial_grid: Vec<Vec<char>> = std::fs::read_to_string("src/inputs/day15_q1")
-        .expect("Failed to read file")
-        .lines()
-        .map(|line| line.chars().collect())
-        .collect();
-
-    let moves = std::fs::read_to_string("src/inputs/day15_q1moves").expect("Failed to read file"); //"<^^>>>vv<v>>v<<";
-
-    println!("Moves: {}", moves);
-    let mut warehouse = Warehouse::new(initial_grid);
-    warehouse.print_grid();
-    let mut i = 0;
-    for mv in moves.chars() {
-         i+=1;
-         println!("Move {:?}, {}", i, mv);
-        warehouse.step(mv);
-        warehouse.print_grid();
+    // let initial_grid: Vec<Vec<char>> = std::fs::read_to_string("src/inputs/day15_q1")
+    //     .expect("Failed to read file")
+    //     .lines()
+    //     .map(|line| line.chars().collect())
+    //     .collect();
+    //
+    // let moves = std::fs::read_to_string("src/inputs/day15_q1moves").expect("Failed to read file"); //"<^^>>>vv<v>>v<<";
+    //
+    // println!("Moves: {}", moves);
+    // let mut warehouse = Warehouse::new(initial_grid);
+    // warehouse.print_grid();
+    // let mut i = 0;
+    // for mv in moves.chars() {
+    //      i+=1;
+    //      println!("Move {:?}, {}", i, mv);
+    //     warehouse.step(mv);
+    //     warehouse.print_grid();
+    // }
+    // //warehouse.print_grid();
+    // let sum = warehouse.sum_gps_coordinates();
+    // println!("Sum of all boxes' GPS coordinates: {}", sum);
+    //day16
+    if let Some(score) = find_lowest_score() {
+        println!("Lowest score: {}", score);
+    } else {
+        println!("No valid path found.");
     }
-    //warehouse.print_grid();
-    let sum = warehouse.sum_gps_coordinates();
-    println!("Sum of all boxes' GPS coordinates: {}", sum);
 }

@@ -45,3 +45,6 @@ pub use day14::predict_robots_movement;
 
 pub mod day15;
 pub use day15::Warehouse;
+
+pub mod day16;
+pub use day16::find_lowest_score;
