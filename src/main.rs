@@ -57,13 +57,13 @@ fn main() {
 
     println!("Moves: {}", moves);
     let mut warehouse = Warehouse::new(initial_grid);
-    //warehouse.print_grid();
-    //let mut i = 0;
+    warehouse.print_grid();
+    let mut i = 0;
     for mv in moves.chars() {
-        // i+=1;
-        // println!("{:?}", i);
+         i+=1;
+         println!("Move {:?}, {}", i, mv);
         warehouse.step(mv);
-       // warehouse.print_grid();
+        warehouse.print_grid();
     }
     //warehouse.print_grid();
     let sum = warehouse.sum_gps_coordinates();

@@ -51,16 +51,29 @@ impl Warehouse {
             y: (self.robot.y as isize + dy).clamp(0, (self.rows - 1) as isize) as usize,
         };
 
-        // handle multiple boxes in succession
-        if self.grid[new_robot_pos.y][new_robot_pos.x] == 'O' {
-            // try to move multiple boxes
+        // Validate if it's a box
+        let is_box = |x: usize, y: usize| {
+            self.grid[y][x] == '[' && x + 1 < self.cols && self.grid[y][x + 1] == ']'
+                || self.grid[y][x] == ']' && x >= 1 && self.grid[y][x - 1] == '['
+        };
+
+        // Collect the chain of sliding boxes and validate their movement
+        if is_box(new_robot_pos.x, new_robot_pos.y) {
             let mut boxes_to_move = vec![];
             let mut current_pos = new_robot_pos;
 
-            // collect consecutive boxes in the moving direction
+            // Traverse all connected boxes and gather their positions
             loop {
-                if self.grid[current_pos.y][current_pos.x] == 'O' {
-                    boxes_to_move.push(current_pos);
+                let x = current_pos.x;
+                let y = current_pos.y;
+
+                if is_box(x, y) {
+                    if self.grid[y][x] == '[' {
+                        boxes_to_move.push((Position { x, y }, Position { x: x + 1, y }));
+                    } else if self.grid[y][x] == ']' && x >= 1 && self.grid[y][x - 1] == '[' {
+                        boxes_to_move.push((Position { x: x - 1, y }, Position { x, y }));
+                    }
+
                     current_pos = Position {
                         x: (current_pos.x as isize + dx).clamp(0, (self.cols - 1) as isize) as usize,
                         y: (current_pos.y as isize + dy).clamp(0, (self.rows - 1) as isize) as usize,
@@ -70,50 +83,51 @@ impl Warehouse {
                 }
             }
 
-            // if there's a free space for all boxes
-            if self.grid[current_pos.y][current_pos.x] == '.' {
-                // move boxes
-                while let Some(box_pos) = boxes_to_move.pop() {
-                    let next_pos = Position {
-                        x: (box_pos.x as isize + dx).clamp(0, (self.cols - 1) as isize) as usize,
-                        y: (box_pos.y as isize + dy).clamp(0, (self.rows - 1) as isize) as usize,
+            // Validate if all the boxes can move in the given direction
+            let mut valid_move = true;
+            for (left, right) in &boxes_to_move {
+                let next_left = Position {
+                    x: (left.x as isize + dx).clamp(0, (self.cols - 1) as isize) as usize,
+                    y: (left.y as isize + dy).clamp(0, (self.rows - 1) as isize) as usize,
+                };
+                let next_right = Position {
+                    x: (right.x as isize + dx).clamp(0, (self.cols - 1) as isize) as usize,
+                    y: (right.y as isize + dy).clamp(0, (self.rows - 1) as isize) as usize,
+                };
+
+                // Check if the spaces are free
+                if !(self.grid[next_left.y][next_left.x] == '.' && self.grid[next_right.y][next_right.x] == '.') {
+                    valid_move = false;
+                    break;
+                }
+            }
+
+            // Move boxes if valid
+            if valid_move {
+                for (left, right) in boxes_to_move.iter().rev() {
+                    let next_left = Position {
+                        x: (left.x as isize + dx).clamp(0, (self.cols - 1) as isize) as usize,
+                        y: (left.y as isize + dy).clamp(0, (self.rows - 1) as isize) as usize,
                     };
-                    self.grid[next_pos.y][next_pos.x] = 'O';
-                    self.grid[box_pos.y][box_pos.x] = '.';
+                    let next_right = Position {
+                        x: (right.x as isize + dx).clamp(0, (self.cols - 1) as isize) as usize,
+                        y: (right.y as isize + dy).clamp(0, (self.rows - 1) as isize) as usize,
+                    };
+
+                    self.grid[left.y][left.x] = '.';
+                    self.grid[right.y][right.x] = '.';
+                    self.grid[next_left.y][next_left.x] = '[';
+                    self.grid[next_right.y][next_right.x] = ']';
                 }
 
-                // move the robot
+                // Update robot position
                 self.grid[new_robot_pos.y][new_robot_pos.x] = '@';
                 self.grid[self.robot.y][self.robot.x] = '.';
                 self.robot = new_robot_pos;
             }
-        } else if self.grid[new_robot_pos.y][new_robot_pos.x] == '.' {
-            // move the robot
-            self.grid[new_robot_pos.y][new_robot_pos.x] = '@';
-            self.grid[self.robot.y][self.robot.x] = '.';
-            self.robot = new_robot_pos;
         }
-        if self.grid[new_robot_pos.y][new_robot_pos.x] == '#' {
-            // wall, cannot move
-            return;
-        }
-
-        if self.grid[new_robot_pos.y][new_robot_pos.x] == 'O' {
-            // try to push the box
-            let new_box_pos = Position {
-                x: (new_robot_pos.x as isize + dx).clamp(0, (self.cols - 1) as isize) as usize,
-                y: (new_robot_pos.y as isize + dy).clamp(0, (self.rows - 1) as isize) as usize,
-            };
-
-            if self.grid[new_box_pos.y][new_box_pos.x] == '.' {
-                // move the box
-                self.grid[new_box_pos.y][new_box_pos.x] = 'O';
-                self.grid[new_robot_pos.y][new_robot_pos.x] = '@';
-                self.grid[self.robot.y][self.robot.x] = '.';
-                self.robot = new_robot_pos;
-            }
-        } else if self.grid[new_robot_pos.y][new_robot_pos.x] == '.' {
-            // move the robot
+        // If moving into an empty space
+        else if self.grid[new_robot_pos.y][new_robot_pos.x] == '.' {
             self.grid[new_robot_pos.y][new_robot_pos.x] = '@';
             self.grid[self.robot.y][self.robot.x] = '.';
             self.robot = new_robot_pos;
@@ -125,7 +139,7 @@ impl Warehouse {
 
         for (y, row) in self.grid.iter().enumerate() {
             for (x, &cell) in row.iter().enumerate() {
-                if cell == 'O' {
+                if cell == '[' {
                     sum += 100 * (y) + (x);
                 }
             }
