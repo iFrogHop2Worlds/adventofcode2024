@@ -69,9 +69,11 @@ fn main() {
     // let sum = warehouse.sum_gps_coordinates();
     // println!("Sum of all boxes' GPS coordinates: {}", sum);
     //day16
-    if let Some(score) = find_lowest_score() {
-        println!("Lowest score: {}", score);
-    } else {
-        println!("No valid path found.");
-    }
+    // if let Some(score) = find_lowest_score() {
+    //     println!("Lowest score: {}", score);
+    // } else {
+    //     println!("No valid path found.");
+    // }
+    //day17
+    three_bit_computer();
 }
