@@ -52,3 +52,5 @@ pub use day16::find_lowest_score;
 pub mod day17;
 pub use day17::three_bit_computer;
 
+pub mod day18;
+
