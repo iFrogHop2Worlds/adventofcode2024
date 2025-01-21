@@ -53,4 +53,5 @@ pub mod day17;
 pub use day17::three_bit_computer;
 
 pub mod day18;
+pub use day18::find_safe_memory_path;
 

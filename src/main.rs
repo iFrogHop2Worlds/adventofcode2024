@@ -75,5 +75,7 @@ fn main() {
     //     println!("No valid path found.");
     // }
     //day17
-    three_bit_computer();
+    //three_bit_computer();
+    // day 18
+    find_safe_memory_path();
 }
