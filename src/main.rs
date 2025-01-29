@@ -77,5 +77,10 @@ fn main() {
     //day17
     //three_bit_computer();
     // day 18
-    find_safe_memory_path();
+    //find_safe_memory_path();
+    //question 2
+    match find_blocking_coordinate() {
+        Some((x, y)) => println!("Blocking coordinate found: ({}, {})", x, y),
+        None => println!("No single coordinate blocked the path."),
+    }
 }

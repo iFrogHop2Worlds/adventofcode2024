@@ -3,8 +3,8 @@ use std::io::{self, BufRead};
 use std::collections::VecDeque;
 
 pub fn find_safe_memory_path() -> usize {
-    const WIDTH: usize = 70;
-    const HEIGHT: usize = 70;
+    const WIDTH: usize = 71;
+    const HEIGHT: usize = 71;
     const FILENAME: &str = "src/inputs/day18_q1";
 
     // Create a grid with default value '.'
