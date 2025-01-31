@@ -58,3 +58,6 @@ pub use day18::find_safe_memory_path;
 pub mod day18_q2;
 pub use day18_q2::find_blocking_coordinate;
 
+pub mod day19;
+pub use day19::find_possible_towel_patterns;
+

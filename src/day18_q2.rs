@@ -56,6 +56,7 @@ fn is_path_possible(grid: &Vec<Vec<char>>, width: usize, height: usize) -> bool 
     // Directions for moving up, down, left, or right
     let directions = [(0, 1), (1, 0), (0, -1), (-1, 0)];
 
+
     while let Some((x, y)) = queue.pop_front() {
         // If we've reached the target, return true
         if x == width - 1 && y == height - 1 {
