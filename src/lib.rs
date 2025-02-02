@@ -60,4 +60,6 @@ pub use day18_q2::find_blocking_coordinate;
 
 pub mod day19;
 pub use day19::find_possible_towel_patterns;
+pub mod day19_q2;
+pub use day19_q2::find_total_towel_patterns;
 
