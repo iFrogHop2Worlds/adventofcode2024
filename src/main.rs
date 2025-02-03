@@ -103,5 +103,8 @@ fn main() {
 
     // day 19
     //find_possible_towel_patterns();
-    find_total_towel_patterns();
+    //find_total_towel_patterns();
+
+    // day 20
+    race_condition_simulator();
 }

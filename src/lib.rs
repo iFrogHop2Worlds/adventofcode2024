@@ -63,3 +63,6 @@ pub use day19::find_possible_towel_patterns;
 pub mod day19_q2;
 pub use day19_q2::find_total_towel_patterns;
 
+pub mod day20;
+pub use day20::race_condition_simulator;
+
